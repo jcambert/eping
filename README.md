@@ -1,6 +1,6 @@
-# vuejsexemple
+# ePing
 
-> A Vue.js project
+> Gestion du Tennis de table selon la FFTT
 
 ## Build Setup
 
@@ -15,4 +15,3 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
