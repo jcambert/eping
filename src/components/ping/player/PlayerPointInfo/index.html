@@ -1,0 +1,25 @@
+<v-flex xs12 sm12 md12 >
+
+    <v-timeline align-top dense>
+        <v-timeline-item
+            v-for="(point, i) in points"
+            :key="i"
+            small
+        >
+            <v-container grid-list-xs text-xs-center>
+                <v-layout row  wrap>
+                    <v-flex xs5>
+                    <div class="caption">{{point.des}}</div>
+                    </v-flex>
+                    <v-flex xs3>
+                    <strong>{{point.points}}</strong>
+                    </v-flex>
+                    <v-divider vertical v-if="point.ecarts"></v-divider>
+                    <v-flex xs3  v-if="point.ecarts">
+                        <strong>{{point.ecarts}}</strong>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+        </v-timeline-item>
+    </v-timeline>
+</v-flex>

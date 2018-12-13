@@ -1,0 +1,14 @@
+{
+    "include":["./src/realtime/socket/server/*"],
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "strict": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es6",
+        "experimentalDecorators": true
+
+    }
+
+}

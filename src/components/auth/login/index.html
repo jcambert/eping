@@ -1,0 +1,30 @@
+<v-content>
+    <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+            <TokenEndPointDialog v-bind:initial="endpoint"></TokenEndPointDialog>
+            <v-flex xs12 sm8 md4>
+                <v-card class="elevation-12">
+                    <v-toolbar dark color="blue-grey">
+                        <v-toolbar-title>Identifiez-vous</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-btn fab dark v-on:click="application.showTokenEndPointDialog()">
+                            <v-icon>settings</v-icon>
+                        </v-btn>
+                    </v-toolbar>
+                    <v-card-text>
+                        <v-form ref="form" v-model="valid">
+                            <v-text-field prepend-icon="person" name="login" label="Licence ou Nom" type="text" v-model="licence" required :rules="licenceRules"></v-text-field>
+                            <v-text-field v-if="!isLicence()" prepend-icon="person" name="login" label="Prenom" type="text" v-model="prenom" required :rules="prenomRules"></v-text-field>
+                            <input type="text" :value="application.EndPoint" >
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" v-on:click="submitForm()" :disabled="!formValid || requested">Entrer</v-btn>
+                        <v-btn v-on:click="clearForm()">Effacer</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+</v-content>
