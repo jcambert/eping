@@ -10,7 +10,7 @@ import * as signalR from '@aspnet/signalr'
 import {Socket} from './realtime/socket'
 declare module "vue/types/vue" {
   interface Vue {
-    $signal:signalR.HubConnection;
-    $socket:Socket
+    $signal:signalR.HubConnection,
+    $socket:Socket,
   }
 }

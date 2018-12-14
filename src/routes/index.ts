@@ -5,6 +5,7 @@ import Sidebar from '../components/layout/sidebar'
 import Topbar from '../components/layout/topbar'
 import * as _ from 'lodash';
 import { MenuItem } from '../store/modules/sidebar';
+import { Observable, Subject } from 'rxjs';
 
 Vue.use(VueRouter)
 
@@ -14,10 +15,16 @@ interface IDefaultRouteOption{
     url?:string
 
 }
+export interface RouterCreated{
+    router:VueRouter
+}
 class AppRouter{
-    routes:Array<any>=[]
-    mode?:RouterMode
+    private routes:Array<any>=[]
+    private mode?:RouterMode
+    private onRouterCreatedSubject=new Subject<RouterCreated>()
+    private routerVue:VueRouter |undefined
     constructor(options:any){
+        console.log("Create AppRouter")
         if(options.mode)
             this.mode=options.mode as RouterMode;
     }
@@ -28,8 +35,14 @@ class AppRouter{
         }
     }
     get router():VueRouter{
+        if(this.routerVue!=undefined)return this.routerVue;
         console.log('create VueRouter with ',this.routeOptions)
-        return new VueRouter(this.routeOptions);
+        this.routerVue= new VueRouter(this.routeOptions)
+        this.onRouterCreatedSubject.next({router:this.routerVue})
+        return this.routerVue
+    }
+    get onRouterCreated():Subject<RouterCreated>{
+       return this.onRouterCreatedSubject
     }
     addDefaultRoute(option:IDefaultRouteOption){
         if(option.name)

@@ -2,7 +2,7 @@
 //import appRouter,{AppRouter} from "../routes";
 import RouterModule, { RouterStore, IDefaultRouteOption } from "../store/modules/route"
 import SidebarModule,{ MenuItem, SidebarStore } from "../store/modules/sidebar"
-import VueRouter, { RouteConfig, RouterOptions } from "vue-router";
+import VueRouter, { RouteConfig, RouterOptions, NavigationGuard } from "vue-router";
 import Vuee from 'vue'
 import * as _ from 'lodash'
 import Home from "../components/layout/home";
@@ -47,10 +47,15 @@ this.sidebar.setMenuItems(
   }]*/
 
 import appRouter from "./../routes";
+import Vue from "vue";
 export interface RouteOptions{
     routes?: RouteConfig[],
     parentName?:string,
-    default?:IDefaultRouteOption
+    default?:IDefaultRouteOption,
+    events?:{
+        beforeEach :NavigationGuard<Vue>
+    }
+
 }
   export class RouterPlugin extends AbstractPlugin{
       options?:RouteOptions
@@ -58,6 +63,8 @@ export interface RouteOptions{
         super(name);
         
         this.options=options
+    
+        
       }
       public get routes():RouteConfig[] | undefined{
           if(this.options)

@@ -4,16 +4,15 @@ import store from '..'
 
 export interface IAppState {
     title: string;
-    
+    loginSettingsDialog:boolean
   }
 
 
 @Module({ dynamic: true, name:'app',store:store})
 export class ApplicationStore extends VuexModule implements IAppState{
     title=""
-    tokenEndPointDialog=false
-    tokenEndPoint:string | undefined;
-    user:{} |undefined
+    loginSettingsDialog=false
+
     @Mutation
     TITLE_CHANGE( value: string) {
         this.title = value;
@@ -26,42 +25,20 @@ export class ApplicationStore extends VuexModule implements IAppState{
     
     @Mutation
     TOKENENDPOINT_DIALOG(value:boolean){
-        this.tokenEndPointDialog=value
+        this.loginSettingsDialog=value
     }
 
     @Action({commit:'TOKENENDPOINT_DIALOG'})
-    showTokenEndPointDialog(){
+    showloginSettingsDialog(){
         return true
     }
     @Action({commit:'TOKENENDPOINT_DIALOG'})
-    hideTokenEndPointDialog(){
+    hideloginSettingsDialog(){
         return false
     }
 
-    @Mutation
-    SET_ENDPOINT(value:string){
-        this.tokenEndPoint=value
-    }
+   
 
-    @Action({commit:'SET_ENDPOINT'})
-    setEndPoint(endpoint:string|undefined){
-        return endpoint
-    }
-
-    get EndPoint(){
-        return this.tokenEndPoint
-    }
-
-    
-    @Mutation
-    SET_USER(value:{}){
-        this.user=value
-    }
-
-    @Action({commit:'SET_USER'})
-    setUser(user:{}|undefined){
-        return user
-    }
    
 }
 const ApplicationModule = getModule(ApplicationStore);

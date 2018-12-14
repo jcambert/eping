@@ -8,7 +8,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --mode production --progress --hide-modules",
     "devsock": "tsc -p tsconfig-socket.json &&  node dist/socketServer.js",
-    "dev":"webpack-dev-server --mode development --inline --port 8080 --host 0.0.0.0 --content-base . --open --hot"
+    "dev": "webpack-dev-server --mode development --inline --port 8080 --host 0.0.0.0 --content-base . --open --hot"
   },
   "dependencies": {
     "@aspnet/signalr": "^1.1.0",

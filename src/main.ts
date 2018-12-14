@@ -4,6 +4,7 @@ import { sync } from 'vuex-router-sync';
 
 import store from './store'
 import appStore from './store/modules/app'
+//import pingStore from './store/modules/ping'
 import App from './components/App'
 import appRouter from './routes'
 import Plugin from './plugins'
@@ -13,7 +14,7 @@ import signalR from './realtime/signal'
 import socket from './realtime/socket'
 import { Message } from './realtime/socket/server/socketServer';
 appStore.settitle("Eping 2018")
-
+appStore.hideloginSettingsDialog()
 Vue.use(Vuetify)
 //Vue.use(signalR,"http://localhost:63271/intranet")
 //Vue.use(socket,"http://localhost:8081")
@@ -29,7 +30,7 @@ Vue.filter("formatPoints", function (value:any) {
 
 Vue.mixin({
   methods: {
-      routeToName(name) {
+      routeToName(name:string) {
           this.$router.push({ name: name });
       },
       goBack() {
@@ -52,7 +53,7 @@ const vue=new Vue({
   components:{
     App,
   },
-  render: h => h('App',{attrs:{start:100}}),
+  render: (h:any) => h('App',{attrs:{start:100}}),
   created(){
     /*this.$signal.start().then(value=>console.log("SignalR started")).catch(err=>console.error(err));
     this.$socket.onMessage().subscribe((message: Message) => {
@@ -61,4 +62,4 @@ const vue=new Vue({
   }
 })
 store.$vue = vue
-global.vue=vue
+//global.vue=vue
