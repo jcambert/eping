@@ -1,0 +1,26 @@
+
+    <v-dialog v-model="application.loginSettingsDialog" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Adresse du Serveur</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+              <v-form ref="form" v-model="valid">
+                  <v-layout wrap>
+                    <v-flex xs12 sm12 md12>
+                      <v-text-field label="Adresse" required v-model="server" :rules="serverRule"></v-text-field>
+                    </v-flex>
+                    
+                  </v-layout>
+                </v-form>
+          </v-container>
+          <small>*Champ Requis</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="close()" >Fermer</v-btn>
+          <v-btn color="blue darken-1" flat @click="save()" :disabled="!formValid || requested">Enregistrer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>

@@ -3,12 +3,13 @@ import {Vue,Component, Prop,} from 'vue-property-decorator'
 import Render from './index.html'
 import ApplicationModule,{ApplicationStore} from '../../../store/modules/app'
 import PingModule,{PingStore} from '../../../store/modules/ping'
-import TokenEndPointDialog from "../../tokenendpoint";
+import LoginSettingsDialog from "../../auth/loginSettingsDialog";
+import { HttpResponse } from '@aspnet/signalr';
 @Render
 @Component({
 
     components:{
-        TokenEndPointDialog:TokenEndPointDialog
+        LoginSettingsDialog:LoginSettingsDialog
     }
 })
 export default class Login extends Vue{
@@ -24,11 +25,27 @@ export default class Login extends Vue{
     get ping():PingStore{
         return PingModule
     }
-    get endpoint(){
-        return  this.ping.tokenEndPoint || "45674589"
+    get server(){
+        return  this.application.server
     }
     submitForm() {
-
+        this.$auth.login(this.licence,this.prenom).then(
+            (response)=>{
+                console.log(response)
+                this.application.setUser(response.data.User)
+                this.application.setBearer(response.data.Token)
+                this.application.setApiSettings(response.data.ApiSettings)
+                this.$auth.fireLogin()
+                
+            },
+            (error)=>{
+                console.error(error)
+                
+            }
+        )
+        .then(()=>{
+            console.log("Vous etes loggé !!")
+        })
     }
     clearForm() {
         this.$refs.form.reset();
@@ -41,6 +58,11 @@ export default class Login extends Vue{
         return this.valid
     }
     created(){
-        this.ping.setEndPoint("localhost:12345")
+        
+    }
+    mounted(){
+       // this.application.setServer("http://localhost:54662")
+        if(! this.server)
+            this.application.showloginSettingsDialog();
     }
 }

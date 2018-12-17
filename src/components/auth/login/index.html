@@ -1,13 +1,13 @@
 <v-content>
     <v-container fluid fill-height>
         <v-layout align-center justify-center>
-            <TokenEndPointDialog v-bind:initial="endpoint"></TokenEndPointDialog>
+            <LoginSettingsDialog v-if="application.loginSettingsDialog" :initial="ping.tokenEndPoint"></LoginSettingsDialog>
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
                     <v-toolbar dark color="blue-grey">
                         <v-toolbar-title>Identifiez-vous</v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-btn fab dark small color="blue-grey darken-2" v-on:click="application.showTokenEndPointDialog()">
+                        <v-btn fab dark small color="blue-grey darken-2" v-on:click="application.showloginSettingsDialog()">
                             <v-icon>settings</v-icon>
                         </v-btn>
                     </v-toolbar>
@@ -15,7 +15,6 @@
                         <v-form ref="form" v-model="valid">
                             <v-text-field prepend-icon="person" name="login" label="Licence ou Nom" type="text" v-model="licence" required :rules="licenceRules"></v-text-field>
                             <v-text-field v-if="!isLicence()" prepend-icon="person" name="login" label="Prenom" type="text" v-model="prenom" required :rules="prenomRules"></v-text-field>
-                            <input type="text" :value="application.EndPoint" >
                         </v-form>
                     </v-card-text>
                     <v-card-actions>

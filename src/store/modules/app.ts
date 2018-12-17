@@ -5,6 +5,9 @@ import store from '..'
 export interface IAppState {
     title: string;
     loginSettingsDialog:boolean
+    bearer:string|undefined
+    apiSettings:any|undefined
+    user:{} |undefined
   }
 
 
@@ -12,7 +15,35 @@ export interface IAppState {
 export class ApplicationStore extends VuexModule implements IAppState{
     title=""
     loginSettingsDialog=false
+    bearer:string|undefined
+    apiSettings:any|undefined
+    server:string="";
 
+    user:{} |undefined
+    
+
+
+    
+    @Mutation
+    SET_USER(value:{}){
+        this.user=value
+    }
+
+    @Action({commit:'SET_USER'})
+    setUser(user:{}|undefined){
+        return user
+    }
+   
+
+    @Mutation
+    SET_SERVER(value:string){
+        this.server=value
+    }
+
+    @Action({commit:'SET_SERVER'})
+    setServer(server:string|undefined){
+        return server
+    }
     @Mutation
     TITLE_CHANGE( value: string) {
         this.title = value;
@@ -37,8 +68,33 @@ export class ApplicationStore extends VuexModule implements IAppState{
         return false
     }
 
-   
+    @Mutation
+    BEARER(value:string){
+        this.bearer = value;
+        if(this.bearer==undefined){
+            this.user=undefined
+            this.apiSettings=undefined
+        }
+    }
+    @Action({commit:'BEARER'})
+    setBearer(value:string){
+        return value
+    }
 
+    @Action({commit:'BEARER'})
+    logout(){
+        return undefined;
+    }
+
+    @Action({commit:'API_SETTINGS'})
+    setApiSettings(value:any){
+        return value;
+    }
+
+    @Mutation
+    API_SETTINGS(value:any){
+        this.apiSettings=value
+    }
    
 }
 const ApplicationModule = getModule(ApplicationStore);

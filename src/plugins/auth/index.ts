@@ -1,6 +1,7 @@
 import router from '../../routes'
 import SidebarModule,{SidebarStore,MenuItem} from '../../store/modules/sidebar'
 import Login from '../../components/auth/login'
+import Logou from '../../components/auth/logout'
 import {RouterPlugin, RouteOptions} from '../'
 import { Route, RawLocation } from 'vue-router';
 
@@ -12,6 +13,10 @@ const routes=[
     name: 'auth.login',
     component: Login,
     
+},{
+    path: '/logout',
+    name:'auth.logout',
+    component:Logout
 }]
 
 const events={
@@ -27,9 +32,10 @@ const events={
 
 import appRouter from "./../../routes";
 import Vue from 'vue';
+import Logout from '../../components/auth/logout';
 class Auth extends RouterPlugin{
     constructor(){
-        super('auth',{events:events});
+        super('auth',{routes:routes, events:events});
         appRouter.onRouterCreated.subscribe(event=>{
             console.log('Auth VueRouter Created');
             console.log(this.options)
