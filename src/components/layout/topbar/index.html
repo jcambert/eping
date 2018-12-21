@@ -19,7 +19,7 @@
         <v-btn icon>
             <v-icon>notifications</v-icon>
         </v-btn>
-        <v-btn icon large>
+        <v-btn icon large @click.stop="$auth.logout()">
             <v-avatar size="32px" tile>
                 <img src="https://cdn.vuetifyjs.com/images/logos/logo.svg"
                      alt="Vuetify">

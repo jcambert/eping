@@ -5,44 +5,59 @@ import store from '..'
 export interface IAppState {
     title: string;
     loginSettingsDialog:boolean
-    bearer:string|undefined
+    //bearer:string|undefined
     apiSettings:any|undefined
-    user:{} |undefined
+    user:User |undefined
   }
 
-
+export interface User{
+    id:string,
+    nom:string,
+    prenom:string,
+    nomClub:string,
+    numeroClub:string
+}
 @Module({ dynamic: true, name:'app',store:store})
 export class ApplicationStore extends VuexModule implements IAppState{
     title=""
     loginSettingsDialog=false
-    bearer:string|undefined
+    //private bearer =sessionStorage.getItem('bearer')as string// :string|undefined
     apiSettings:any|undefined
-    server:string="";
+    //server:string="";
 
-    user:{} |undefined
-    
-
+    user:User | undefined 
 
     
     @Mutation
-    SET_USER(value:{}){
+    SET_USER(value:User){
         this.user=value
+        sessionStorage.setItem('user',JSON.stringify( value))
     }
 
     @Action({commit:'SET_USER'})
-    setUser(user:{}|undefined){
+    setUser(user:User){
         return user
     }
    
-
+    get USER():User|undefined{
+        let v=sessionStorage.getItem('user')
+        if(v)
+            return JSON.parse(v)
+        return undefined
+    }
     @Mutation
     SET_SERVER(value:string){
-        this.server=value
+        //this.server=value
+        localStorage.setItem('server',value)
     }
 
     @Action({commit:'SET_SERVER'})
     setServer(server:string|undefined){
         return server
+    }
+
+    get server():string{
+        return localStorage.getItem('server') as string
     }
     @Mutation
     TITLE_CHANGE( value: string) {
@@ -70,17 +85,28 @@ export class ApplicationStore extends VuexModule implements IAppState{
 
     @Mutation
     BEARER(value:string){
-        this.bearer = value;
-        if(this.bearer==undefined){
+        console.log('set bearer to ', value)
+        
+        //this.bearer = value;
+        if(value==undefined){
             this.user=undefined
             this.apiSettings=undefined
+            sessionStorage.removeItem('bearer')
+            sessionStorage.removeItem('user')
+            sessionStorage.removeItem('api')
+        }else{
+            sessionStorage.setItem('bearer',value)
         }
+
     }
     @Action({commit:'BEARER'})
     setBearer(value:string){
         return value
     }
 
+    get bearer():string{
+        return sessionStorage.getItem('bearer') as string
+    }
     @Action({commit:'BEARER'})
     logout(){
         return undefined;
@@ -94,6 +120,13 @@ export class ApplicationStore extends VuexModule implements IAppState{
     @Mutation
     API_SETTINGS(value:any){
         this.apiSettings=value
+        sessionStorage.setItem('api',JSON.stringify(value))
+    }
+
+    get API(){
+        let v=sessionStorage.getItem('api')
+        if(v)
+            return JSON.parse(v)
     }
    
 }

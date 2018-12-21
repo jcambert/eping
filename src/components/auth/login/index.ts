@@ -32,10 +32,12 @@ export default class Login extends Vue{
         this.$auth.login(this.licence,this.prenom).then(
             (response)=>{
                 console.log(response)
-                this.application.setUser(response.data.User)
+                this.$auth.fireLogin()
+                this.$store.commit('SET_USER',response.data.User)
+                //this.application.setUser(response.data.User)
                 this.application.setBearer(response.data.Token)
                 this.application.setApiSettings(response.data.ApiSettings)
-                this.$auth.fireLogin()
+                
                 
             },
             (error)=>{
@@ -62,7 +64,7 @@ export default class Login extends Vue{
     }
     mounted(){
        // this.application.setServer("http://localhost:54662")
-        if(! this.server)
+        if(! this.application.server)
             this.application.showloginSettingsDialog();
     }
 }

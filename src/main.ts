@@ -4,7 +4,7 @@ import VueResource from 'vue-resource'
 import { sync } from 'vuex-router-sync'
 
 import store from './store'
-import appStore from './store/modules/app'
+import appStore, { ApplicationStore } from './store/modules/app'
 //import pingStore from './store/modules/ping'
 import App from './components/App'
 import appRouter from './routes'
@@ -17,6 +17,8 @@ import { Message } from './realtime/socket/server/socketServer';
 
 
 import AuthService from './services/auth'
+import ApplicationModule from './store/modules/app';
+import PlayerService from './services/ping/player';
 
 appStore.settitle("Eping 2018")
 appStore.hideloginSettingsDialog()
@@ -26,7 +28,7 @@ Vue.use(VueResource);
 //Vue.use(socket,"http://localhost:8081")
 Vue.use(Plugin,Auth, Ping);
 Vue.use(AuthService)
-
+Vue.use(PlayerService)
 Vue.filter("formatNumber", function (value:any) {
   //return numeral.format(value,v=>{ return 0}); // displaying other groupings/separators is possible, look at the docs
   return value
@@ -38,27 +40,44 @@ Vue.filter("formatPoints", function (value:any) {
 Vue.mixin({
   methods: {
       routeToName(name:string) {
+         
           this.$router.push({ name: name });
       },
       goBack() {
         window.history.length > 1
         ? this.$router.go(-1)
         : this.$router.push('/')
-      }
-
+      },
   }
 })
 const router = appRouter.router
 
 sync(store, router); 
 //global.store=store
-
+router.beforeEach((from,to,next)=>{
+  console.log('want navigate from ',from.name,' to ', to.name);
+  if(from.name=="auth.login")return next();
+  if(to.name!="auth.login" && !ApplicationModule.bearer){
+    console.log('1');
+     next({name: 'auth.login'})
+  }
+  else{
+    console.log('2');
+     next()
+  }
+});
 const vue=new Vue({
   el: '#app',
   router,
   store,
+  
   components:{
     App,
+  },
+  computed:{
+    application():ApplicationStore{
+      return ApplicationModule
+    }
   },
   render: (h:any) => h('App',{attrs:{start:100}}),
   created(){
@@ -66,6 +85,11 @@ const vue=new Vue({
     this.$socket.onMessage().subscribe((message: Message) => {
       console.log(message.content)
     });*/
+
+    if(!sessionStorage.getItem('bearer') && this.$route.name!=="auth.login"){
+      //store.dispatch('router/ROUTE_CHANGED',{name:'auth.login'})
+      this.routeToName("auth.login")
+    }
   },
   mounted(){
     this.$auth.onLoggedIn.subscribe(value=>{
@@ -73,8 +97,16 @@ const vue=new Vue({
     })
 
     this.$auth.onLogout.subscribe(value=>{
-      this.routeToName('auth.login')
+      ApplicationModule.logout()
+      this.$router.push({ name: 'auth.login' });
     })
+    console.log(this.$route.fullPath);
+ 
+    /*
+    this.$router.beforeEach((from,to,next)=>{
+      
+    })*/
+
   }
 })
 store.$vue = vue

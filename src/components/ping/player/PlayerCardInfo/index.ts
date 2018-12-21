@@ -12,13 +12,13 @@ export default class PlayerCardInfo extends Vue{
     @Prop()
     player:any
     get icon():string{
-        return this.player.sexe=='male' ? 'male-avatar':'female-avatar'
+        return this.player.sexe=='M' ? 'male-avatar':'female-avatar'
     }
     /*get avatar(){
         return require('./' + this.icon + '.png')
     }*/
     get model():CardInfoOptions{
-        return {icon:this.icon,title:`${this.player.nom}<br>${this.player.prenom}`,text:this.player.club,badge:this.player.classement,actions:[this.player.points ,this.player.age ,this.player.licence ]}
+        return {icon:this.icon,title:`${this.player.nom}<br>${this.player.prenom}`,text:this.player.club,badge:this.player.classement,actions:3}
     }
 
 

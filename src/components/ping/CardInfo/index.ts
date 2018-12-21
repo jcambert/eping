@@ -7,7 +7,7 @@ export interface CardInfoOptions{
     badge?:string,
     title:string,
     text:string,
-    actions?:Array<any>
+    actions?:number
 }
 @Render
 @Component({})
@@ -24,7 +24,7 @@ export default  class CardInfo extends PingVue {
     }
     cardhrClass(index:number){
         if(this.model && this.model.actions)
-            return (index+1)<this.model.actions.length ?`border-right-width: thin;border-right-style: solid;border-right-color: rgba(0, 0, 0, .12)`:''
+            return (index+1)<this.model.actions ?`border-right-width: thin;border-right-style: solid;border-right-color: rgba(0, 0, 0, .12)`:''
         
     }
 

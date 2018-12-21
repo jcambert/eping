@@ -6,6 +6,9 @@ import PlayerPointInfo from './PlayerPointInfo'
 import PlayerPartieInfo from './PlayerPartiesInfo';
 import ClubCardInfo from '../club/ClubCardInfo';
 import PlayerRang from './PlayerRang'
+import ApplicationModule,{ApplicationStore, User} from './../../../store/modules/app'
+import { createDecipher } from 'crypto';
+import PingModule, { PingStore } from '../../../store/modules/ping';
 @Render
 @Component({
     components:{
@@ -18,17 +21,14 @@ import PlayerRang from './PlayerRang'
 })
 export default class Player extends Vue{
     
-    active:any=null
-    player={
-        nom:'Ambert',
-        prenom:'Jean-Christophe',
-        club:'ATT Grandvillars',
-        classement:'6',
-        points:616,
-        age:'Veteran 1',
-        licence:'905821',
-        sexe:'male'
+    get app():ApplicationStore{
+        return ApplicationModule;
     }
+    get ping():PingStore{
+        return PingModule
+    }
+    active:any=null
+    player:any={}
     parties=[{
         nom:'Francois Nicolas',
         victoire:'V',
@@ -68,7 +68,45 @@ export default class Player extends Vue{
             stat:'40%'
         },
     ]
+    loadPlayer(licence:string){
+        var self=this
+        this.$player.getPlayer(licence)
+            .then(response=>{
+                self.player= response.data
+                // console.dir(response)
+                //return self.$player.ge
+                self.ping.setPlayer(self.player)
+                return self.player.numeroClub;
+            })
+            .then(self.$player.getClub.bind(self.$player))
+            .then(response=>{
+                console.dir(response)
+                self.club=response.data
+                self.ping.setClub(self.club)
+            })
+    }
+  created(){
+      console.dir(this.app)
+      /*this.$store.subscribe((mutation,state)=>{
+        console.log(mutation.type)
+        console.log(mutation.payload)
+      })*/
+
+    this.$store.watch(state=>state.app.user,(value:User|undefined)=>{
+        console.log('a new user happened',value)
+
+        if(value!=undefined)
+            this.loadPlayer(value.id)
+            /*this.$player.getPlayer(value.id).then(response=>{
+                this.player= response.data
+               // console.dir(response)
+            })*/
+    },{deep:true,immediate:true,})
+  }
   mounted(){
-   // alert('CardviewInfo mounted')
+      var self=this
+      if(this.app.USER)
+        this.loadPlayer(this.app.USER.id)
+            
   }
 }

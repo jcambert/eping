@@ -12,9 +12,9 @@ export default class ClubCardInfo extends Vue{
     @Prop()
     club?:any
 
-   
+    
     get model():CardInfoOptions{
-        return {icon:'home',title:`${this.club.nom}<br>&nbsp;`,text:this.club.region,actions:[`${this.club.licencies} licenciés` ,this.club.numero ]}
+        return {icon:'home',title:`${this.club.nom}<br>&nbsp;`,text:this.club.region,actions:2}
     }
 
   mounted(){

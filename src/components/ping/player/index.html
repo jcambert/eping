@@ -1,7 +1,11 @@
 <v-container  grid-list-md>
     <v-layout row wrap>
-        <PlayerCard  :player="player"></PlayerCard>
-        <ClubCard    :club="club">    </ClubCard>
+        <PlayerCard  :player="ping.player">
+            <div slot="action-0" :html="ping.player.point"></div>
+            <div slot="action-1" :html="ping.categorieAge[ping.player.categorie].value"></div>
+            <div slot="action-2" :html="ping.player.licence"></div>
+        </PlayerCard>
+        <ClubCard    :club="ping.club">    </ClubCard>
         <v-flex xs12 sm12 md12 >
             <v-expansion-panel popout>
                 <v-expansion-panel-content>

@@ -9,6 +9,7 @@ import * as signalR from '@aspnet/signalr'
 import {Socket} from './realtime/socket'
 import {  $resource } from "vue-resource/types/vue_resource";
 import { Auth } from "./services/auth";
+import { Player } from "./services/ping/player";
 
 declare module "vue/types/vue" {
   interface Vue {
@@ -16,6 +17,7 @@ declare module "vue/types/vue" {
     $signal:signalR.HubConnection,
     $socket:Socket,
     $resource:$resource,
-    $auth:Auth
+    $auth:Auth,
+    $player:Player
   }
 }
