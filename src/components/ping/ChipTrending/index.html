@@ -1,0 +1,16 @@
+<v-tooltip bottom>
+    <v-chip color="red" text-color="white" slot="activator" v-if="redCondition">
+        <v-avatar color="red darken-2">
+            <v-icon color="white darken-2">trending_down</v-icon>
+        </v-avatar>
+        <span>{{value}}</span>
+    </v-chip>
+    <v-chip color="green" text-color="white" slot="activator" v-else>
+        <v-avatar color="green darken-2">
+            <v-icon color="white darken-2">trending_up</v-icon>
+        </v-avatar>
+        <span>{{value}}</span>
+    </v-chip>
+    <span>{{tooltip}}
+    </span>
+</v-tooltip>

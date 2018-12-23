@@ -25,7 +25,7 @@ export class Player{
     }
 
     private apiUrl(name:string,...params:any[]):string {
-        var api=this.application.API[name]
+        var api=this.application.apiSettings[name]
         if(!api)
             throw new Error(`api ${name} n'existe pas !!`)
         var chunk=api.split(/\{[a-zA-Z]*\}/)
@@ -58,6 +58,10 @@ export class Player{
 
     public getPlayers(numeroClub:string){
         return this.vue.$http.get(this.application.API.EndPoint+this.application.API.JoueursDuClub.replace('{numero}',numeroClub))
+    }
+
+    public getParties(licence:string){
+        return this.query('PartiesDuJoueur',licence)
     }
     
 }

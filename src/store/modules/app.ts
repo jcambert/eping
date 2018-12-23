@@ -7,7 +7,9 @@ export interface IAppState {
     loginSettingsDialog:boolean
     //bearer:string|undefined
     apiSettings:any|undefined
-    user:User |undefined
+    user:User |undefined,
+    serverStatus:boolean,
+    server:string|undefined
   }
 
 export interface User{
@@ -19,17 +21,18 @@ export interface User{
 }
 @Module({ dynamic: true, name:'app',store:store})
 export class ApplicationStore extends VuexModule implements IAppState{
-    title=""
-    loginSettingsDialog=false
+    public title=""
+    public loginSettingsDialog=false
     //private bearer =sessionStorage.getItem('bearer')as string// :string|undefined
-    apiSettings:any|undefined
+    public apiSettings:any|undefined=JSON.parse(sessionStorage.getItem('api'))
     //server:string="";
-
-    user:User | undefined 
-
+    public serverStatus=false
+    public user:User | undefined =JSON.parse(sessionStorage.getItem('user')) as User
+    public server:any = sessionStorage.getItem('server')
     
     @Mutation
     SET_USER(value:User){
+        console.log('app store new user',value)
         this.user=value
         sessionStorage.setItem('user',JSON.stringify( value))
     }
@@ -40,6 +43,7 @@ export class ApplicationStore extends VuexModule implements IAppState{
     }
    
     get USER():User|undefined{
+        
         let v=sessionStorage.getItem('user')
         if(v)
             return JSON.parse(v)
@@ -47,8 +51,9 @@ export class ApplicationStore extends VuexModule implements IAppState{
     }
     @Mutation
     SET_SERVER(value:string){
-        //this.server=value
-        localStorage.setItem('server',value)
+        console.log('set server to ',value)
+        this.server=value
+        sessionStorage.setItem('server',value)
     }
 
     @Action({commit:'SET_SERVER'})
@@ -56,8 +61,8 @@ export class ApplicationStore extends VuexModule implements IAppState{
         return server
     }
 
-    get server():string{
-        return localStorage.getItem('server') as string
+    get SERVER():string{
+        return sessionStorage.getItem('server') as string
     }
     @Mutation
     TITLE_CHANGE( value: string) {
@@ -128,7 +133,25 @@ export class ApplicationStore extends VuexModule implements IAppState{
         if(v)
             return JSON.parse(v)
     }
+
+    @Mutation
+    SET_SERVER_STATUS(value:boolean){
+        if(value!=this.serverStatus)
+            this.serverStatus=value
+    }
+    @Action({commit:'SET_SERVER_STATUS'})
+    setServerUp(){
+        //console.log("Server is Up");
+        return true
+    }
    
+    @Action({commit:'SET_SERVER_STATUS'})
+    setServerDown(){
+        //console.log("Server is Down");
+        return false
+    }
+
+
 }
 const ApplicationModule = getModule(ApplicationStore);
 export default ApplicationModule

@@ -15,7 +15,7 @@ import signalR from './realtime/signal'
 import socket from './realtime/socket'
 import { Message } from './realtime/socket/server/socketServer';
 
-
+import AliveService from './services/alive'
 import AuthService from './services/auth'
 import ApplicationModule from './store/modules/app';
 import PlayerService from './services/ping/player';
@@ -29,6 +29,7 @@ Vue.use(VueResource);
 Vue.use(Plugin,Auth, Ping);
 Vue.use(AuthService)
 Vue.use(PlayerService)
+Vue.use(AliveService,{time:3000,endpoint:"/alive"})
 Vue.filter("formatNumber", function (value:any) {
   //return numeral.format(value,v=>{ return 0}); // displaying other groupings/separators is possible, look at the docs
   return value
@@ -87,7 +88,6 @@ const vue=new Vue({
     });*/
 
     if(!sessionStorage.getItem('bearer') && this.$route.name!=="auth.login"){
-      //store.dispatch('router/ROUTE_CHANGED',{name:'auth.login'})
       this.routeToName("auth.login")
     }
   },
@@ -101,12 +101,16 @@ const vue=new Vue({
       this.$router.push({ name: 'auth.login' });
     })
     console.log(this.$route.fullPath);
- 
+    
+    this.$alive.start()
     /*
     this.$router.beforeEach((from,to,next)=>{
       
     })*/
 
+  },
+  beforeDestroy(){
+    this.$alive.beforeDestroy()
   }
 })
 store.$vue = vue

@@ -13,18 +13,20 @@ export interface CardInfoOptions{
 @Component({})
 export default  class CardInfo extends PingVue {
     @Prop()
-    model?:CardInfoOptions
-    get icon(){
+    nbreActions:Number=0
+
+    
+    //model?:CardInfoOptions
+   /* get icon(){
         if(this.model)
             return  this.model.icon
     }
     get avatar(){
         return require('./../assets/' + this.icon + '.png')
        // return require(this.assetPath+this.icon+'.png')
-    }
+    }*/
     cardhrClass(index:number){
-        if(this.model && this.model.actions)
-            return (index+1)<this.model.actions ?`border-right-width: thin;border-right-style: solid;border-right-color: rgba(0, 0, 0, .12)`:''
+        return (index+1)<this.nbreActions ?`border-right-width: thin;border-right-style: solid;border-right-color: rgba(0, 0, 0, .12)`:''
         
     }
 

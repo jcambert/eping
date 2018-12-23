@@ -1,25 +1,18 @@
 <v-flex xs12 sm6 md6 >
         <v-card >
             <v-card-title>
-                <v-container grid-list-xs >
+                <v-container fluid grid-list-xs >
                     <v-layout row fill-height>
-                        <v-flex xs2 sm2 md2>
-                            <v-badge overlap left v-if="model.badge">
-                                <span slot="badge">{{model.badge}}</span>
-                                <v-avatar size="40px" >
-                                    <v-img :src="avatar"  alt="avatar"></v-img>  
-                                </v-avatar>                           
-                            </v-badge>
-                            <v-avatar size="40px" v-else>
-                                <v-img :src="avatar"  alt="avatar"></v-img>  
-                            </v-avatar>
+                        <v-flex xs2 sm2 md2 >
+                           <slot name="avatar"></slot>
                            
                         </v-flex>
                         <v-flex xs10 sm10 md10>
                             <v-card flat>
                                 <v-card-title>
-                                    <span class="title" v-html="model.title"></span>
-                                    <slot name="text">{{model.text}}</slot>
+                                    <slot name="title"></slot>
+                                    <!--<span class="title" v-html="model.title"></span>
+                                    <slot name="text">{{model.text}}</slot>-->
                                 </v-card-title>    
                             </v-card> 
                         </v-flex>
@@ -32,8 +25,8 @@
             <v-card-actions>
                 <v-container grid-list-md text-xs-center>
                     <v-layout row wrap>
-                        <v-flex v-for="(action,index) in model.actions" :key="index" :style="cardhrClass(index)">
-                            <span><slot :name="`action-${index}`">{{action}}</slot></span>
+                        <v-flex v-for="(index) in (nbreActions)" :key="index" :style="cardhrClass(index)">
+                            <span><slot :name="`action-${index}`">{{index}}</slot></span>
                         </v-flex>
                     </v-layout>
                 </v-container>

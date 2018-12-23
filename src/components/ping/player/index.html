@@ -1,61 +1,55 @@
 <v-container  grid-list-md>
     <v-layout row wrap>
-        <PlayerCard  :player="ping.player">
-            <div slot="action-0" :html="ping.player.point"></div>
-            <div slot="action-1" :html="ping.categorieAge[ping.player.categorie].value"></div>
-            <div slot="action-2" :html="ping.player.licence"></div>
-        </PlayerCard>
+        <PlayerCard  :player="ping.player" :progression="pointVirtuel-ping.player.pointOfficiel"></PlayerCard>
         <ClubCard    :club="ping.club">    </ClubCard>
         <v-flex xs12 sm12 md12 >
-            <v-expansion-panel popout>
-                <v-expansion-panel-content>
-                        <div slot="header">Points/Historique</div>
-                    <v-card>
-                        <v-card-text>
-                            <v-tabs
-                                v-model="active"
-                                color="cyan"
-                                dark
-                                slider-color="yellow">
-                                <v-tab key="points">
-                                    Points
-                                </v-tab>
-                                <v-tab key="historique">
-                                    Historique
-                                </v-tab>
-                                <v-tab-item key="points">
-                                    <PlayerPoint></PlayerPoint>
-                                </v-tab-item>
-                                <v-tab-item key="historique">
-                                    TOTO
-                                </v-tab-item>
-                            </v-tabs>
-                        </v-card-text>
-                    </v-card>
-                </v-expansion-panel-content>
-            </v-expansion-panel> 
-            <v-expansion-panel popout>
-                <v-expansion-panel-content>
-                    <div slot="header">Parties</div>
-                    <template v-for="(partie,idx) in parties">
-                            <PlayerPartie   :partie="partie"></PlayerPartie> 
+            <ExpansionPanel header="Points/Historique" v-if="partiesLoaded">
+                <v-card>
+                    <v-card-text>
+                        <v-tabs
+                            v-model="active"
+                            color="cyan"
+                            dark
+                            slider-color="yellow">
+                            <v-tab key="points">
+                                Points
+                            </v-tab>
+                            <v-tab key="historique">
+                                Historique
+                            </v-tab>
+                            <v-tab-item key="points">
+                                <PlayerPoint :points="historiquePoints()"></PlayerPoint>
+                            </v-tab-item>
+                            <v-tab-item key="historique">
+                                TOTO
+                            </v-tab-item>
+                        </v-tabs>
+                    </v-card-text>
+                </v-card>
+            </ExpansionPanel>
+            <ExpansionPanel header="Parties">
+                <v-list three-line>
+                    <template v-for="(journee,jidx) in ping.parties">
+                        <v-divider></v-divider>
+                        <PlayerJournee :journee="journee"></PlayerJournee>
+                        <PlayerPartie v-for="(partie,pidx) in journee.parties" :partie="partie" :key="`partie-${jidx}-${pidx}`"></PlayerPartie>
                     </template>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
+                </v-list>
+            </ExpansionPanel>
             <v-expansion-panel popout>
                 <v-expansion-panel-content>
                     <div slot="header">Victoires/Perfs/Adversaire</div>
-                    <template v-for="(partie,idx) in parties">
-                            <PlayerPartie   :partie="partie"></PlayerPartie> 
-                    </template>
+                        <!--<PlayerPartie   :partie="partie" v-for="(partie,idx) in parties" :key="`partie-${idx}`"></PlayerPartie> -->
                 </v-expansion-panel-content>
             </v-expansion-panel>
             <v-expansion-panel popout>
                 <v-expansion-panel-content>
                     <div slot="header">Rangs</div>
-                    <template v-for="(rang,idx) in rangs">
-                        <PlayerRang  :rang="rang"></PlayerRang> 
-                    </template>
+                    <v-container fluid>
+                        <v-layout row>
+                            <PlayerRang  :rang="rang"  v-for="(rang,idx) in rangs()" :key="`rang-${idx}`"></PlayerRang> 
+                        </v-layout>
+                    </v-container>
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-flex>

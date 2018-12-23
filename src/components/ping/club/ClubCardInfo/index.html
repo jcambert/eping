@@ -1,10 +1,25 @@
-<CardInfo :model="model">
-    <div slot="action-0">
-    </div>
+<CardInfo :nbreActions="2">
     <div slot="action-1">
-        {{club.numero}}
+        <CardButtonAction icon="person" v-on:onClick="onClickCorrespondant">
+                {{club.prenomCorrespondant}} &nbsp;{{club.nomCorrespondant}}<br>
+                {{club.telephoneCorrespondant}}&nbsp;<br>
+                {{club.mailCorrespondant}}
+        </CardButtonAction>
+        <CardButtonAction icon="share" :tooltip="club.siteWeb" v-on:onClick="onClickShare"></CardButtonAction>
+        <CardButtonAction icon="my_location" v-if="club.location && club.latitude">
+                <span>{{club.longitude}} &nbsp;{{club.latitude}}</span>
+        </CardButtonAction>
     </div>
-    <v-container fill-height fluid pa-2 slot="text">
+    <div slot="action-2">
+        <CardTextAction :value="club.numero" :tooltip="'Numero du Club'"></CardTextAction>
+        
+    </div>
+    <div slot="avatar">
+        <v-avatar size="40px" >
+            <v-img :src="avatar"  alt="avatar"></v-img>  
+        </v-avatar> 
+     </div>
+    <v-container fill-height fluid pa-2 slot="title">
         <v-layout row wrap>
             <v-flex xs12>
                 <v-card  class="black--text">
@@ -16,25 +31,7 @@
                         <span>{{club.villeSalle}}</span>
                     </div>
                     </v-card-title>
-                    <v-card-actions>
-                        <v-tooltip bottom>
-                            <v-btn flat fab dark color="blue-grey" slot="activator"><v-icon>person</v-icon></v-btn>
-                            <span>{{club.prenomCorrespondant}} &nbsp;{{club.nomCorrespondant}}<br>
-                                {{club.telephoneCorrespondant}}&nbsp;<br>
-                                {{club.mailCorrespondant}}
-                            </span>
-                        </v-tooltip>
-                        <v-tooltip bottom>
-                            <v-btn flat fab dark color="blue-grey" slot="activator"><v-icon>share</v-icon></v-btn>
-                            <span>{{club.siteWeb}}</span>
-                        </v-tooltip>
-                        <v-tooltip bottom>
-                            <v-btn flat fab dark color="blue-grey" slot="activator"><v-icon>my_location</v-icon></v-btn>
-                            <span>{{club.longitude}} &nbsp;{{club.latitude}}
-                            </span>
-                        </v-tooltip>
-                        
-                    </v-card-actions>
+                    
                 </v-card>
             </v-flex>
         </v-layout>

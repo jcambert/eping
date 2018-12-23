@@ -12,7 +12,7 @@ export default class LoginSettingsDialog extends Vue{
     @Prop({type:String,default:""}) initial?:string
     valid:boolean=false
     requested:boolean= false
-    server?:string=this.initial || 'http://localhost:54662'
+    server?:string=this.initial || ''
     serverRule= [(v:any) => !!v || 'L\'addresse du server est obligatoire']
  
     get application():ApplicationStore{
@@ -36,6 +36,6 @@ export default class LoginSettingsDialog extends Vue{
         return this.valid
     }
     mounted(){
-       console.log(this.application.server)
+       console.log(this.application.SERVER)
     }
 }

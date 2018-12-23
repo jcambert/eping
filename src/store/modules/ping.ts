@@ -6,7 +6,7 @@ export interface IPingState {
     player:any
     club:any
     categorieAge:{}
-
+    parties:any
   }
 
 
@@ -15,6 +15,7 @@ export class PingStore extends VuexModule implements IPingState{
 
     player:any={}
     club:any={}
+    parties:any=[]
     categorieAge= {
         'N': { value: 'Non determiné' },
         'P': { value: 'Poussin', desc: 'jeunes ayant 8 ans au plus' },
@@ -55,6 +56,15 @@ export class PingStore extends VuexModule implements IPingState{
         this.club=club
     }
     
+    @Action({commit:'SET_PARTIES'})
+    setParties(parties:any){
+        return parties
+    }
+
+    @Mutation
+    SET_PARTIES(parties:any){
+        this.parties=parties
+    }
    
 }
 const PingModule = getModule(PingStore);

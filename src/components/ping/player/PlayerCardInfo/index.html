@@ -1,12 +1,65 @@
-<CardInfo :model="model">
+<CardInfo :nbreActions="3">
+        <div slot="avatar">
+            <v-tooltip bottom>
+                <v-badge overlap left v-if="player.classement" slot="activator">
+                    <span slot="badge">{{player.classement}}</span>
+                    <v-avatar size="40px" >
+                        <v-img :src="avatar"  alt="avatar"></v-img>  
+                    </v-avatar>                           
+                </v-badge>
+                <v-avatar size="40px" v-else slot="activator">
+                    <v-img :src="avatar"  alt="avatar"></v-img>  
+                </v-avatar>
+                <span>
+                    Sexe:{{player.sexe=="M"?"Masculin":"Feminin"}}<br>
+                    Classement Officiel {{player.classement}}
+                </span>
+            </v-tooltip>
+            
+        </div>
+        <v-container fluid slot="title">
+            <v-layout >
+                <v-flex xs12 md5>
+                    <span class="title">
+                        {{player.nom}}<br>{{player.prenom}}
+                    </span>
+                </v-flex>
+                <v-flex xs6 md7 >
+                    <v-container fluid>
+                        <v-layout row>
+                            <v-flex xs3 sm4>
+                                <Chip :value="player.pointOfficiel " :tooltip="`Points Officiel:${player.pointOfficiel}`"></Chip>
+                                <ChipTrending :redCondition="(player.point-player.pointOfficiel)<0" :value="`${player.point }` " :tooltip="`Points Mensuel:${player.point}`"></ChipTrending>
+                                <ChipTrending :redCondition="(progression)<0" v-bind:value="`${player.pointOfficiel+progression}`" v-bind:tooltip="`Points Virtuelle:${player.pointOfficiel+progression }`"></ChipTrending>
+                            </v-flex>
+                            <v-flex >
+                                    <ChipTrending :redCondition="player.progressionMensuelle<0" v-bind:value="`${player.progressionMensuelle }`" v-bind:tooltip="`Progression Mensuelle:${player.progressionMensuelle}`"></ChipTrending>
+                                    <ChipTrending :redCondition="player.progressionAnnuelle<0" v-bind:value="`${player.progressionAnnuelle }`" v-bind:tooltip="`Progression Annuelle:${player.progressionAnnuelle }`"></ChipTrending>
+                                    <ChipTrending :redCondition="progression<0" v-bind:value="`${progression }`" v-bind:tooltip="`Progression Virtuelle:${progression }`"></ChipTrending>
+                                    
+                                    
+                            </v-flex>
 
-        <div slot="action-0">
-            {{player.point}}
+
+                        </v-layout>
+                    </v-container>
+                    
+                    
+                
+                    
+                </v-flex>
+            </v-layout>
+        </v-container>
+        
+        
+        <div slot="action-1" >
+            <CardTextAction :value="player.pointOfficiel" :tooltip="`Point Officiel ${player.pointOfficiel}`"></CardTextAction>
         </div>
-        <div slot="action-1">
-            {{player.categorie}}
+        <div slot="action-2" >
+            <CardTextAction :value="ping.categorieAge[player.categorie].value" :tooltip="ping.categorieAge[player.categorie].desc"></CardTextAction>
         </div>
-        <div slot="action-2">
-            {{player.licence}}
+        <div slot="action-3" >
+            <CardTextAction :value="player.licence" :tooltip="`Numero de licence:${player.licence}`"></CardTextAction>
         </div>
 </CardInfo>
+

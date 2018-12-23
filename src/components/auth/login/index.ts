@@ -29,6 +29,7 @@ export default class Login extends Vue{
         return  this.application.server
     }
     submitForm() {
+        this.requested=true
         this.$auth.login(this.licence,this.prenom).then(
             (response)=>{
                 console.log(response)
@@ -46,6 +47,7 @@ export default class Login extends Vue{
             }
         )
         .then(()=>{
+            this.requested=false
             console.log("Vous etes loggé !!")
         })
     }
@@ -57,14 +59,15 @@ export default class Login extends Vue{
     }
     
     get formValid():boolean {
-        return this.valid
+        return this.valid && this.application.serverStatus
     }
     created(){
         
     }
     mounted(){
-       // this.application.setServer("http://localhost:54662")
-        if(! this.application.server)
-            this.application.showloginSettingsDialog();
+        if(!localStorage.getItem('server'))
+            this.application.setServer("http://localhost:54662")
+     //if(! this.application.server)
+       //     this.application.showloginSettingsDialog();
     }
 }

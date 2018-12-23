@@ -33,7 +33,7 @@ export class Auth{
     }
     constructor(vue:Vue){
         this.vue=vue;
-
+        console.log('Auth Service ',this.application.server)
         this._resource= this.vue.$resource('http://localhost:54662',{},
             this.customActions,
             {
