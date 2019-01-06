@@ -8,6 +8,6 @@ export default class Chip extends Vue{
     @Prop({required:true})
     value:any
 
-    @Prop({type:String,default:"",required:true})
-    tooltip:string=""
+    @Prop({type:String,default:"",required:false})
+    tooltip?:string
 }

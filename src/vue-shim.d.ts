@@ -12,6 +12,7 @@ import { Auth } from "./services/auth";
 import { Player } from "./services/ping/player";
 import { Alive } from "./services/alive";
 import { IRootState, EStore } from "./store";
+import { Club } from "./services/ping/club";
 
 declare module "vue/types/vue" {
   interface Vue {
@@ -22,6 +23,7 @@ declare module "vue/types/vue" {
     $resource:$resource,
     $auth:Auth,
     $player:Player,
+    $club:Club,
     $alive:Alive
   }
 }

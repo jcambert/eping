@@ -1,5 +1,5 @@
-<CardInfo :nbreActions="2">
-    <div slot="action-1">
+<CardInfo :nbreActions="2" >
+    <div slot="action-1" v-if="showCorrespondant">
         <CardButtonAction icon="person" v-on:onClick="onClickCorrespondant">
                 {{club.prenomCorrespondant}} &nbsp;{{club.nomCorrespondant}}<br>
                 {{club.telephoneCorrespondant}}&nbsp;<br>
@@ -10,7 +10,10 @@
                 <span>{{club.longitude}} &nbsp;{{club.latitude}}</span>
         </CardButtonAction>
     </div>
-    <div slot="action-2">
+    <div slot="action-1" v-else>
+        <span v-if="licencies>0">{{licencies}} licenciés</span>
+    </div>
+    <div slot="action-2" v-if="showNumero">
         <CardTextAction :value="club.numero" :tooltip="'Numero du Club'"></CardTextAction>
         
     </div>
@@ -19,9 +22,10 @@
             <v-img :src="avatar"  alt="avatar"></v-img>  
         </v-avatar> 
      </div>
-    <v-container fill-height fluid pa-2 slot="title">
+    <v-container fill-height fluid pa-2 slot="title" >
         <v-layout row wrap>
-            <v-flex xs12>
+            <v-flex xs12><span class="font-weight-regular headline">{{club.nom}}</span></v-flex>
+            <v-flex xs12 v-if="showCard">
                 <v-card  class="black--text">
                     <v-card-title primary-title>
                     <div>

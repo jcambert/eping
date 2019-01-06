@@ -1,0 +1,76 @@
+<v-container  grid-list-md>
+    <v-layout row wrap v-if="!onLoading">
+        <!--<Snackbar :color="snackColor" :visible="showSnack">{{message}}</Snackbar>-->
+        <PlayerCard  :player="player_" :progression="pointVirtuel-player_.pointOfficiel"></PlayerCard>
+        <ClubCard    :club="club" v-if="club">    </ClubCard>
+        <v-flex xs12 sm12 md12 >
+            <ExpansionPanel header="Points/Historique" >
+                <v-card>
+                    <v-card-text>
+                        <v-tabs
+                            v-model="tabactive"
+                            color="cyan"
+                            dark
+                            slider-color="yellow">
+                            <v-tab key="points">
+                                Points
+                            </v-tab>
+                            <v-tab key="historique">
+                                Historique
+                            </v-tab>
+                            <v-tab-item key="points">
+                                <PlayerPoint :points="historiquePoints"></PlayerPoint>
+                            </v-tab-item>
+                            <v-tab-item key="historique">
+                                TOTO
+                            </v-tab-item>
+                        </v-tabs>
+                    </v-card-text>
+                </v-card>
+            </ExpansionPanel>
+            <ExpansionPanel header="Parties" v-if="parties">
+                    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" v-if="dialog">
+                        <v-card>
+                            <v-toolbar dark color="primary">
+                                <v-btn icon dark @click="dialog = false">
+                                <v-icon>close</v-icon>
+                                </v-btn>
+                                <v-toolbar-title>Detail du joueur</v-toolbar-title>
+                                <v-spacer></v-spacer>
+                                <v-toolbar-items>
+                                <v-btn dark flat @click="dialog = false">Fermer</v-btn>
+                                </v-toolbar-items>
+                            </v-toolbar>
+                            <PlayerInfo :licence="partielicence" v-on:error="onLicenceError"></PlayerInfo>
+                            
+                            </v-card>
+                    </v-dialog>
+                <v-list three-line>
+                    <template v-for="(journee,jidx) in parties">
+                        <v-divider></v-divider>
+                        <PlayerJournee :journee="journee"></PlayerJournee>
+                        <PlayerPartie v-for="(partie,pidx) in journee.parties" :partie="partie" :key="`partie-${jidx}-${pidx}`" v-on:showplayerinfo="showPlayerInfo"></PlayerPartie>
+                    </template>
+                </v-list>
+            </ExpansionPanel>
+            <v-expansion-panel popout>
+                <v-expansion-panel-content>
+                    <div slot="header">Victoires/Perfs/Adversaire</div>
+                        <!--<PlayerPartie   :partie="partie" v-for="(partie,idx) in parties" :key="`partie-${idx}`"></PlayerPartie> -->
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel popout>
+                <v-expansion-panel-content>
+                    <div slot="header">Rangs</div>
+                    <v-container fluid>
+                        <v-layout row>
+                            <PlayerRang  :rang="rang"  v-for="(rang,idx) in rangs" :key="`rang-${idx}`"></PlayerRang> 
+                        </v-layout>
+                    </v-container>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-flex>
+
+          
+    </v-layout>
+</v-container>

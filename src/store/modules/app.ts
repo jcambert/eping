@@ -24,17 +24,17 @@ export class ApplicationStore extends VuexModule implements IAppState{
     public title=""
     public loginSettingsDialog=false
     //private bearer =sessionStorage.getItem('bearer')as string// :string|undefined
-    public apiSettings:any|undefined=JSON.parse(sessionStorage.getItem('api'))
+    public apiSettings:any|undefined=JSON.parse(localStorage.getItem('api'))
     //server:string="";
     public serverStatus=false
-    public user:User | undefined =JSON.parse(sessionStorage.getItem('user')) as User
-    public server:any = sessionStorage.getItem('server')
+    public user:User | undefined =JSON.parse(localStorage.getItem('user')) as User
+    public server:any = localStorage.getItem('server')
     
     @Mutation
     SET_USER(value:User){
-        console.log('app store new user',value)
+       // console.log('app store new user',value)
         this.user=value
-        sessionStorage.setItem('user',JSON.stringify( value))
+        localStorage.setItem('user',JSON.stringify( value))
     }
 
     @Action({commit:'SET_USER'})
@@ -44,16 +44,16 @@ export class ApplicationStore extends VuexModule implements IAppState{
    
     get USER():User|undefined{
         
-        let v=sessionStorage.getItem('user')
+        let v=localStorage.getItem('user')
         if(v)
             return JSON.parse(v)
         return undefined
     }
     @Mutation
     SET_SERVER(value:string){
-        console.log('set server to ',value)
+       // console.log('set server to ',value)
         this.server=value
-        sessionStorage.setItem('server',value)
+        localStorage.setItem('server',value)
     }
 
     @Action({commit:'SET_SERVER'})
@@ -62,7 +62,7 @@ export class ApplicationStore extends VuexModule implements IAppState{
     }
 
     get SERVER():string{
-        return sessionStorage.getItem('server') as string
+        return localStorage.getItem('server') as string
     }
     @Mutation
     TITLE_CHANGE( value: string) {
@@ -90,17 +90,17 @@ export class ApplicationStore extends VuexModule implements IAppState{
 
     @Mutation
     BEARER(value:string){
-        console.log('set bearer to ', value)
+      //  console.log('set bearer to ', value)
         
         //this.bearer = value;
         if(value==undefined){
             this.user=undefined
             this.apiSettings=undefined
-            sessionStorage.removeItem('bearer')
-            sessionStorage.removeItem('user')
-            sessionStorage.removeItem('api')
+            localStorage.removeItem('bearer')
+            localStorage.removeItem('user')
+            localStorage.removeItem('api')
         }else{
-            sessionStorage.setItem('bearer',value)
+            localStorage.setItem('bearer',value)
         }
 
     }
@@ -125,11 +125,11 @@ export class ApplicationStore extends VuexModule implements IAppState{
     @Mutation
     API_SETTINGS(value:any){
         this.apiSettings=value
-        sessionStorage.setItem('api',JSON.stringify(value))
+        localStorage.setItem('api',JSON.stringify(value))
     }
 
     get API(){
-        let v=sessionStorage.getItem('api')
+        let v=localStorage.getItem('api')
         if(v)
             return JSON.parse(v)
     }
@@ -151,6 +151,13 @@ export class ApplicationStore extends VuexModule implements IAppState{
         return false
     }
 
+    get development():boolean{
+        return process.env.NODE_ENV!=='production'
+    }
+
+    get production():boolean{
+        return process.env.NODE_ENV==='production'
+    }
 
 }
 const ApplicationModule = getModule(ApplicationStore);

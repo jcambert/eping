@@ -8,7 +8,7 @@ import Render from './index.html'
 export default class ExpansionPanel extends Vue{
 
     @Prop({type:String,required:true,default:""})
-    header:string
+    header?:string
     mounted(){
 
     }

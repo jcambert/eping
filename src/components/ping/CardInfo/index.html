@@ -1,4 +1,4 @@
-<v-flex xs12 sm6 md6 >
+<v-flex xs12 sm6 md6  >
         <v-card >
             <v-card-title>
                 <v-container fluid grid-list-xs >
@@ -25,7 +25,7 @@
             <v-card-actions>
                 <v-container grid-list-md text-xs-center>
                     <v-layout row wrap>
-                        <v-flex v-for="(index) in (nbreActions)" :key="index" :style="cardhrClass(index)">
+                        <v-flex v-for="(index) in (nbreActions_)" :key="index" :style="cardhrClass(index)">
                             <span><slot :name="`action-${index}`">{{index}}</slot></span>
                         </v-flex>
                     </v-layout>

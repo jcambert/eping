@@ -1,0 +1,13 @@
+<v-snackbar v-model="visible"
+            :color="color"
+            :multi-line="multiLine"
+            :timeout="timeout"
+            :vertical="vertical">
+    <slot></slot>
+    
+    <v-btn dark
+           flat
+           v-on:click="visible = false">
+        Fermer
+    </v-btn>
+</v-snackbar>

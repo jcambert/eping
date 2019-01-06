@@ -12,27 +12,19 @@ export interface CardInfoOptions{
 @Render
 @Component({})
 export default  class CardInfo extends PingVue {
-    @Prop()
-    nbreActions:Number=0
+    @Prop({type:Number,required:false,default:3})
+    nbreActions?:number
 
-    
-    //model?:CardInfoOptions
-   /* get icon(){
-        if(this.model)
-            return  this.model.icon
-    }
-    get avatar(){
-        return require('./../assets/' + this.icon + '.png')
-       // return require(this.assetPath+this.icon+'.png')
-    }*/
     cardhrClass(index:number){
-        return (index+1)<this.nbreActions ?`border-right-width: thin;border-right-style: solid;border-right-color: rgba(0, 0, 0, .12)`:''
+        return (index+1)<this.nbreActions_ ?`border-right-width: thin;border-right-style: solid;border-right-color: rgba(0, 0, 0, .12)`:''
         
     }
 
+    get nbreActions_():number{
+        return this.nbreActions?this.nbreActions:3
+    }
 
   mounted(){
-    //alert('CardviewInfo mounted')
-    //console.log(this.model)
+
   }
 }

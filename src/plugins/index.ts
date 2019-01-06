@@ -95,7 +95,7 @@ export  class MenuPlugin extends AbstractPlugin{
     public get menus():Array<MenuItem>{return this._menus}
     
     public addMenus():void{
-        console.log("UIPlugin.addMenus", this.menus);
+      //  console.log("UIPlugin.addMenus", this.menus);
         if(this.menus.length>0)
             this.sidebar.addMenuItems(this.menus)
     }

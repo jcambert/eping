@@ -1,0 +1,18 @@
+<v-container  grid-list-md>
+        <v-layout row wrap >
+            <!--<Snackbar :color="snackColor" :visible="showSnack">{{message}}</Snackbar>-->
+            <ClubCard    :club="club" v-if="club" :showCorrespondant="false" :showCard="false" :licencies="licencies.length">    </ClubCard>
+            <v-flex xs12 sm12 md12 >
+                <ExpansionPanel header="Liste des joueurs" >
+                    <PlayerListe :players="licencies"></PlayerListe>
+                </ExpansionPanel>
+                <ExpansionPanel header="Liste des equipes" ></ExpansionPanel>
+                <ExpansionPanel header="Classements"> </ExpansionPanel>
+                <ExpansionPanel header="Hommes / Femmes"> </ExpansionPanel>
+                <ExpansionPanel header="Adresse / Contact"> </ExpansionPanel>
+                
+            </v-flex>
+    
+              
+        </v-layout>
+    </v-container>

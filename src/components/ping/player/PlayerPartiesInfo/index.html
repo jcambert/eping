@@ -1,7 +1,7 @@
 
 <v-list-tile 
         avatar
-        v-on:click="">
+        v-on:click="$emit('showplayerinfo',{nom:partie.nom})">
         <v-list-tile-content>
         <v-list-tile-title v-text="partie.nom"></v-list-tile-title>
         </v-list-tile-content>

@@ -16,6 +16,7 @@ export class PingStore extends VuexModule implements IPingState{
     player:any={}
     club:any={}
     parties:any=[]
+    historique:any=[]
     categorieAge= {
         'N': { value: 'Non determiné' },
         'P': { value: 'Poussin', desc: 'jeunes ayant 8 ans au plus' },
@@ -34,6 +35,20 @@ export class PingStore extends VuexModule implements IPingState{
         'V3': { value: 'Veteran 3', desc: 'adultes agés de 60 à 69 ans' },
         'V4': { value: 'Veteran 4', desc: 'adultes agés de 70 à 79 ans' },
         'V5': { value: 'Veteran 1', desc: 'adultes agés de plus de 80 ans' }
+    }
+
+
+    players:Array<any>=[]
+
+
+    @Action({commit:'SET_PLAYERS'})
+    setPlayers(players:Array<any>){
+        return players
+    }
+
+    @Mutation 
+    SET_PLAYERS(players:Array<any>){
+        this.players=players
     }
 
     @Action({commit:'SET_PLAYER'})
@@ -64,6 +79,16 @@ export class PingStore extends VuexModule implements IPingState{
     @Mutation
     SET_PARTIES(parties:any){
         this.parties=parties
+    }
+
+    @Action({commit:'SET_HISTORIQUE'})
+    setHistorique(historique:any){
+        return historique
+    }
+
+    @Mutation
+    SET_HISTORIQUE(historique:any){
+        this.historique=historique
     }
    
 }

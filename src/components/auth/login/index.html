@@ -1,17 +1,26 @@
 <v-content>
     <v-container fluid fill-height>
         <v-layout align-center justify-center>
-            <keep-alive>
+           <!-- <keep-alive>---->
                 <LoginSettingsDialog v-if="application.loginSettingsDialog" :initial="application.SERVER" lazy></LoginSettingsDialog>
-            </keep-alive>
+            <!--</keep-alive>-->
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
                     <v-toolbar dark color="blue-grey">
                         <v-toolbar-title>Identifiez-vous</v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-btn fab dark small color="blue-grey darken-2" v-on:click="application.showloginSettingsDialog()">
-                            <v-icon>settings</v-icon>
-                        </v-btn>
+                        <v-tooltip bottom>
+                            <v-btn slot="activator" fab dark small color="blue-grey darken-2" v-on:click="resetDatabase()" v-if="application.development">
+                                <v-icon>autorenew</v-icon>
+                            </v-btn>
+                            <span>RAZ Database</span>
+                        </v-tooltip>
+                        <v-tooltip bottom>
+                            <v-btn slot="activator" fab dark small color="blue-grey darken-2" v-on:click="application.showloginSettingsDialog()">
+                                <v-icon>settings</v-icon>
+                            </v-btn>
+                            <span>Parametres</span>
+                        </v-tooltip>
                     </v-toolbar>
                     <v-card-text>
                         <v-form ref="form" v-model="valid">

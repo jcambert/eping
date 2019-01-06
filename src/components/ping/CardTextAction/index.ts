@@ -7,6 +7,8 @@ export default class CardTextAction extends Vue{
     @Prop({required:true})
     value:any
 
-    @Prop({default:"",required:true})
-    tooltip:string=""
+    @Prop({default:"",required:false})
+    tooltip?:string
+
+
 }

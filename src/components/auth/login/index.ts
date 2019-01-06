@@ -25,6 +25,11 @@ export default class Login extends Vue{
     get ping():PingStore{
         return PingModule
     }
+
+    resetDatabase(){
+        this.$auth.resetDatabase();
+    }
+
     get server(){
         return  this.application.server
     }
@@ -33,12 +38,13 @@ export default class Login extends Vue{
         this.$auth.login(this.licence,this.prenom).then(
             (response)=>{
                 console.log(response)
-                this.$auth.fireLogin()
-                this.$store.commit('SET_USER',response.data.User)
+                //this.$store.commit('SET_USER',response.data.User)
+                this.application.setUser(response.data.User)
+                
                 //this.application.setUser(response.data.User)
                 this.application.setBearer(response.data.Token)
                 this.application.setApiSettings(response.data.ApiSettings)
-                
+                this.$auth.fireLogin()
                 
             },
             (error)=>{
@@ -65,8 +71,12 @@ export default class Login extends Vue{
         
     }
     mounted(){
-        if(!localStorage.getItem('server'))
-            this.application.setServer("http://localhost:54662")
+        if(this.application.development)
+            this.$auth.onDatabaseReset.subscribe(()=>{
+                console.log("database has been reseting")
+            })
+       // if(!localStorage.getItem('server'))
+        //    this.application.setServer("http://localhost:54662")
      //if(! this.application.server)
        //     this.application.showloginSettingsDialog();
     }

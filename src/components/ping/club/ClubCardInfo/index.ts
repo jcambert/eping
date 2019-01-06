@@ -16,17 +16,26 @@ export default class ClubCardInfo extends Vue{
     @Prop()
     club?:any
 
+    @Prop({type:Boolean,default:true})
+    showCorrespondant?:boolean
+
+    @Prop({type:Boolean,default:true})
+    showNumero?:boolean
+
+    @Prop({type:Number,default:0})
+    licencies?:number
+
+    @Prop({type:Boolean,default:true})
+    showCard?:boolean
+
     get icon(){
         return 'home'
     }
     get avatar(){
         return require('./../../assets/' + this.icon + '.png')
-       // return require(this.assetPath+this.icon+'.png')
     }
 
-    /*get model():CardInfoOptions{
-        return {icon:'home',title:`${this.club.nom}<br>&nbsp;`,text:this.club.region,actions:2}
-    }*/
+
 
     onClickCorrespondant(){
         //alert('on correspondant click')

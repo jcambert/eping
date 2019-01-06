@@ -6,6 +6,13 @@ import Topbar from '../components/layout/topbar'
 import * as _ from 'lodash';
 import { MenuItem } from '../store/modules/sidebar';
 import { Observable, Subject } from 'rxjs';
+import { Component } from 'vue-property-decorator'
+
+Component.registerHooks([
+    'beforeRouteEnter',
+    'beforeRouteUpdate',
+    'beforeRouteLeave'
+  ]);
 
 Vue.use(VueRouter)
 
@@ -24,7 +31,7 @@ class AppRouter{
     private onRouterCreatedSubject=new Subject<RouterCreated>()
     private routerVue:VueRouter |undefined
     constructor(options:any){
-        console.log("Create AppRouter")
+       // console.log("Create AppRouter")
         if(options.mode)
             this.mode=options.mode as RouterMode;
     }
@@ -36,7 +43,7 @@ class AppRouter{
     }
     get router():VueRouter{
         if(this.routerVue!=undefined)return this.routerVue;
-        console.log('create VueRouter with ',this.routeOptions)
+       // console.log('create VueRouter with ',this.routeOptions)
         this.routerVue= new VueRouter(this.routeOptions)
         this.onRouterCreatedSubject.next({router:this.routerVue})
         return this.routerVue
@@ -54,7 +61,7 @@ class AppRouter{
         
         if(!route.name)
             throw new Error("route must contain a name")
-        console.dir(route.name)
+        //console.dir(route.name)
         this.routes.push(route);
     }
     addRoutes(routes:Array<any>){
@@ -66,7 +73,7 @@ class AppRouter{
             
             if(!res.children)res.children=[]
             res.children.push(route)
-            console.log('add',route, ' to ' ,parentName)
+           // console.log('add',route, ' to ' ,parentName)
         }
     }
     addChilds(parentName:any,routes:Array<any>){

@@ -6,6 +6,8 @@ import PingModule, { PingStore } from '../../../../store/modules/ping';
 import ChipTrending from '../../ChipTrending';
 import Chip from '../../Chip';
 import CardTextAction from '../../CardTextAction';
+import filters from '../../../../filters';
+
 @Render
 @Component({
     components:{
@@ -13,33 +15,35 @@ import CardTextAction from '../../CardTextAction';
         CardTextAction:CardTextAction,
         Chip:Chip,
         ChipTrending:ChipTrending,
-
-    }
+    },
+    filters:filters
 })
 export default class PlayerCardInfo extends Vue{
     @Prop()
     player:any
 
-    @Prop({type:Number,required:true})
-    progression:number=0
+    @Prop({type:Number,required:false,default:0})
+    progression?:number
 
     get icon():string{
         return this.player.sexe=='M' ? 'male-avatar':'female-avatar'
     }
     get avatar(){
         return require('./../../assets/' + this.icon + '.png')
-       // return require(this.assetPath+this.icon+'.png')
     }
-   /* get model():CardInfoOptions{
-        return {icon:this.icon,title:`${this.player.nom}<br>${this.player.prenom}`,text:this.player.club,badge:this.player.classement,actions:3}
-    }*/
+
+    get progression_():number |undefined{
+        return this.progression
+    }
 
     get ping():PingStore{
         return PingModule
     }
 
+    get player_(){
+        return this.player
+    }
   mounted(){
-   // alert('CardviewInfo mounted')
-   //console.log(this.player)
+
   }
 }

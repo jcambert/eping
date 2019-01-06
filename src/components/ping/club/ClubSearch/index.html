@@ -1,0 +1,38 @@
+
+    <v-layout row wrap>
+        <v-flex  xs12 offset-md2 md8 >
+                <v-text-field flat
+                clearable
+                autofocus
+                prepend-icon="search"
+                label='Rechercher un Club ("75","Paris",...)' 
+                @keyup.enter="onSearch"
+                v-model="searchWord"></v-text-field>
+        </v-flex>
+        <v-flex  xs12 offset-md2 md8>
+            <v-list two-line> 
+                <v-list-tile
+                    v-for="club in clubs"
+                    :key="club.numero"
+                    avatar
+                    @click="">
+                    <v-list-tile-avatar >
+                        <v-btn flat  icon round color="blue">
+                            <v-img :src="avatar()" ></v-img>
+                            
+                        </v-btn>
+                    </v-list-tile-avatar>
+        
+                    <v-list-tile-content>
+                    <v-list-tile-title v-html="club.nom"></v-list-tile-title>
+                    </v-list-tile-content>
+        
+                    <v-list-tile-action color="blue">
+                        <v-btn flat icon>
+                            <v-icon color="blue">keyboard_arrow_right</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
+                </v-list-tile>
+            </v-list>
+        </v-flex>
+    </v-layout>

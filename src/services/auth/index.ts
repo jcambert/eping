@@ -15,12 +15,13 @@ export class Auth{
     private _resource:AuthMethods
     private onLoggedInSubject=new Subject<boolean>()
     private onLogoutSubject = new Subject<boolean>()
+    private onDatabaseResetSubject=new Subject<boolean>()
     private customActions = {
-        login: {method: 'POST', url: 'http://localhost:54662/login',before:this.beforeLogin,headers:  {'Access-Control-Allow-Origin': '*',}},
-        logout: {method: 'POST', url: 'http://localhost:54662/logout',headers:  {'Access-Control-Allow-Origin': '*',}}
+        login: {method: 'POST', url: this.application.SERVER+'/login',before:this.beforeLogin,headers:  {'Access-Control-Allow-Origin': '*',}},
+        logout: {method: 'POST', url: this.application.SERVER+'/logout',headers:  {'Access-Control-Allow-Origin': '*',}}
       }
     private beforeLogin(req:any){
-        console.log('execute login request',req)
+       // console.log('execute login request',req)
     }
     private get bearer(){
         return {
@@ -33,8 +34,8 @@ export class Auth{
     }
     constructor(vue:Vue){
         this.vue=vue;
-        console.log('Auth Service ',this.application.server)
-        this._resource= this.vue.$resource('http://localhost:54662',{},
+      //  console.log('Auth Service ',this.application.server)
+        this._resource= this.vue.$resource(this.application.SERVER,{},
             this.customActions,
             {
                 headers: {
@@ -47,9 +48,9 @@ export class Auth{
         return this._resource.login({licenceOrName:licence,prenom:prenom})
     }
     public logout(){
-       console.log(sessionStorage.bearer);
-       this.vue.$http.post('http://localhost:54662/logout',{'token':sessionStorage.bearer},{ headers: {
-            "Authorization": "bearer "+ sessionStorage.bearer ,
+      // console.log(sessionStorage.bearer);
+       this.vue.$http.post('http://localhost:54663/logout',{'token':localStorage.bearer},{ headers: {
+            "Authorization": "bearer "+ localStorage.bearer ,
             "Accept": "application/json",
             "cache-control": "no-cache"
         }}).then((response)=>{
@@ -66,11 +67,32 @@ export class Auth{
         this.onLogoutSubject.next(true)
     }
 
+   public fireDatabaseReset(){
+    this.onDatabaseResetSubject.next(true)
+   }
+
     get onLoggedIn():Subject<boolean>{
         return this.onLoggedInSubject
     }
     get onLogout():Subject<boolean>{
         return this.onLogoutSubject
+    }
+
+    get onDatabaseReset():Subject<boolean>{
+        return this.onDatabaseResetSubject
+    }
+
+    public resetDatabase(){
+        this.vue.$http.post(this.application.server+'/resetdatabase',{},{ headers: {
+            "Authorization": "bearer "+ localStorage.bearer ,
+            "Accept": "application/json",
+            "cache-control": "no-cache"
+        }})
+        .then(response=>{
+            this.fireDatabaseReset()
+        },()=>{
+            console.error("Error while reseting database")
+        })
     }
 }
 

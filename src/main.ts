@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import VueResource from 'vue-resource'
 import { sync } from 'vuex-router-sync'
-
+import filters from './filters'
 import store from './store'
 import appStore, { ApplicationStore } from './store/modules/app'
 //import pingStore from './store/modules/ping'
@@ -19,6 +19,7 @@ import AliveService from './services/alive'
 import AuthService from './services/auth'
 import ApplicationModule from './store/modules/app';
 import PlayerService from './services/ping/player';
+import ClubService from './services/ping/club';
 
 appStore.settitle("Eping 2018")
 appStore.hideloginSettingsDialog()
@@ -29,14 +30,8 @@ Vue.use(VueResource);
 Vue.use(Plugin,Auth, Ping);
 Vue.use(AuthService)
 Vue.use(PlayerService)
+Vue.use(ClubService)
 Vue.use(AliveService,{time:3000,endpoint:"/alive"})
-Vue.filter("formatNumber", function (value:any) {
-  //return numeral.format(value,v=>{ return 0}); // displaying other groupings/separators is possible, look at the docs
-  return value
-});
-Vue.filter("formatPoints", function (value:any) {
-  return value > 0 ? "+" + value : value; // displaying other groupings/separators is possible, look at the docs
-});
 
 Vue.mixin({
   methods: {
@@ -92,6 +87,7 @@ const vue=new Vue({
     }
   },
   mounted(){
+    
     this.$auth.onLoggedIn.subscribe(value=>{
       this.routeToName('ping.me')
     })
@@ -100,7 +96,7 @@ const vue=new Vue({
       ApplicationModule.logout()
       this.$router.push({ name: 'auth.login' });
     })
-    console.log(this.$route.fullPath);
+   // console.log(this.$route.fullPath);
     
     this.$alive.start()
     /*
@@ -114,4 +110,4 @@ const vue=new Vue({
   }
 })
 store.$vue = vue
-//global.vue=vue
+global.vue=vue

@@ -1,10 +1,10 @@
-<template v-for="(joueur,index) in joueursFilter">
-    <v-divider v-if="showJoueurDivider(joueur,index)"></v-divider>
-    <v-list-tile :key="joueur.licence"
+<v-list two-line subheader v-if="player">
+    <v-divider v-if="showJoueurDivider(player)"></v-divider>
+    <v-list-tile :key="player.licence"
                  avatar
-                 v-on:click.native="loadPartiesDujoueur(joueur)">
+                 v-on:click.native="loadPartiesDujoueur(player)">
         <v-list-tile-action>
-            <v-btn flat icon color="primary" v-on:click.native="infoJoueur(joueur)">
+            <v-btn flat icon color="primary" v-on:click.native="infoJoueur(player)">
                 <v-icon>info</v-icon>
             </v-btn>
             <!--  <v-icon v-if="item.icon" color="pink">star</v-icon>-->
@@ -12,7 +12,7 @@
 
         <v-list-tile-content>
             <v-list-tile-title>
-                <b>{{joueur.nom +' ' + joueur.prenom}}</b>
+                <b>{{player.nom +' ' + player.prenom}}</b>
 
 
             </v-list-tile-title>
@@ -23,32 +23,32 @@
                            fab
                            dark
                            small
-                           v-on:click.native="showChart(joueur,0)">
+                           v-on:click.native="showChart(player,0)">
                         <v-icon dark>fa-chart-line</v-icon>
                     </v-btn>
                     <span>Visualisation des graphiques</span>
                 </v-tooltip>
                 <v-tooltip bottom>
 
-                    <v-chip color="red" text-color="white" slot="activator" v-if="(joueur.point-joueur.pointOfficiel)<0">
+                    <v-chip color="red" text-color="white" slot="activator" v-if="(player.point-player.pointOfficiel)<0">
                         <v-avatar color="red darken-2">
                             <v-icon color="white darken-2">trending_down</v-icon>
                         </v-avatar>
-                        <span>{{joueur.point}}</span>
+                        <span>{{player.point}}</span>
                     </v-chip>
                     <v-chip color="green" text-color="white" slot="activator" v-else>
                         <v-avatar color="green darken-2">
                             <v-icon color="white darken-2">trending_up</v-icon>
                         </v-avatar>
-                        <span>{{joueur.point}}</span>
+                        <span>{{player.point}}</span>
                     </v-chip>
                     <span>
-                        Points acquis/perdu:{{joueur.point}}
+                        Points officiel:{{player.point}}
                     </span>
                 </v-tooltip>
                 <v-chip>
 
-                    <v-avatar color="red" v-if="joueur.progressionAnnuelle<0">
+                    <v-avatar color="red" v-if="player.progressionAnnuelle<0">
                         <v-icon color="white darken-2">trending_down</v-icon>
                     </v-avatar>
                     <v-avatar color="green" v-else>
@@ -56,15 +56,15 @@
                     </v-avatar>
                     <v-tooltip bottom>
                         <span slot="activator">
-                            {{joueur.progressionAnnuelle | formatNumber}}
+                            {{player.progressionAnnuelle | formatNumber}}
                         </span>
-                        <span>Progression Annuelle:{{joueur.progressionAnnuelle | formatNumber}} </span>
+                        <span>Progression Annuelle:{{player.progressionAnnuelle | formatNumber}} </span>
                     </v-tooltip>
 
                 </v-chip>
 
                 <v-chip>
-                    <v-avatar color="red" v-if="joueur.progressionMensuelle<0">
+                    <v-avatar color="red" v-if="player.progressionMensuelle<0">
                         <v-icon color="white darken-2">trending_down</v-icon>
                     </v-avatar>
                     <v-avatar color="green" v-else>
@@ -72,9 +72,9 @@
                     </v-avatar>
                     <v-tooltip bottom>
                         <span slot="activator">
-                            {{joueur.progressionMensuelle | formatNumber}}
+                            {{player.progressionMensuelle | formatNumber}}
                         </span>
-                        <span>Progression Mensuelle:{{joueur.progressionMensuelle | formatNumber}} </span>
+                        <span>Progression Mensuelle:{{player.progressionMensuelle | formatNumber}} </span>
                     </v-tooltip>
 
                 </v-chip>
@@ -82,27 +82,27 @@
                 <v-chip>
                     <v-tooltip bottom>
                         <span slot="activator">
-                            {{joueur.classementNational }}
+                            {{player.classementNational }}
                         </span>
-                        <span>Classement National:{{joueur.classementNational }} </span>
+                        <span>Classement National:{{player.classementNational }} </span>
                     </v-tooltip>
 
                 </v-chip>
                 <v-chip>
                     <v-tooltip bottom>
                         <span slot="activator">
-                            {{joueur.rangRegional }}
+                            {{player.rangRegional }}
                         </span>
-                        <span>Classement Regionnal:{{joueur.rangRegional }} </span>
+                        <span>Classement Regionnal:{{player.rangRegional }} </span>
                     </v-tooltip>
 
                 </v-chip>
                 <v-chip>
                     <v-tooltip bottom>
                         <span slot="activator">
-                            {{joueur.rangDepartemental }}
+                            {{player.rangDepartemental }}
                         </span>
-                        <span>Classement Departemental:{{joueur.rangDepartemental }} </span>
+                        <span>Classement Departemental:{{player.rangDepartemental }} </span>
                     </v-tooltip>
 
                 </v-chip>
@@ -114,11 +114,11 @@
             <!-- <img :src="item.avatar">-->
 
             <v-chip color="primary" text-color="white">
-                <v-avatar class="primary darken-4">{{joueur.pointOfficiel}}</v-avatar>
+                <v-avatar class="primary darken-4">{{player.pointOfficiel}}</v-avatar>
                 <v-tooltip bottom>
-                    <span slot="activator"> {{joueur.categorie }}</span>
+                    <span slot="activator"> {{player.categorie }}</span>
                     <span>
-                        {{categorieAge[joueur.categorie].desc}}
+                        {{ping.categorieAge[player.categorie].desc}}
                     </span>
                 </v-tooltip>
 
@@ -129,4 +129,4 @@
     </v-list-tile>
 
 
-</template>
+</v-list>

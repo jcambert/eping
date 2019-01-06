@@ -1,0 +1,56 @@
+
+    <v-layout row wrap>
+        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" v-if="dialog">
+            <v-card>
+                <v-toolbar dark color="primary">
+                  <v-btn icon dark @click="dialog = false">
+                    <v-icon>close</v-icon>
+                  </v-btn>
+                  <v-toolbar-title>Detail du joueur</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-toolbar-items>
+                    <v-btn dark flat @click="dialog = false">Fermer</v-btn>
+                  </v-toolbar-items>
+                </v-toolbar>
+                <PlayerInfo :licence="currentJoueur.licence" v-on:error="onLicenceError"></PlayerInfo>
+                
+              </v-card>
+        </v-dialog>
+
+        <v-flex  xs12 offset-md2 md8 >
+                <v-text-field flat
+                clearable
+                autofocus
+                prepend-icon="search"
+                label="Rechercher un joueur" 
+                @keyup.enter="onSearch"
+                v-model="searchWord"></v-text-field>
+        </v-flex>
+        <v-flex  xs12 offset-md2 md8>
+            <v-list two-line> 
+                <v-list-tile
+                    v-for="joueur in joueurs"
+                    :key="joueur.licence"
+                    avatar
+                    @click="showCardJoueur(joueur)">
+                    <v-list-tile-avatar >
+                        <v-btn flat  icon round :color="joueur.echelon ? 'green' : 'blue'">
+                            <v-icon :color="joueur.echelon ? 'green' : 'blue'">{{icon(joueur)}}</v-icon>
+                            
+                        </v-btn>
+                    </v-list-tile-avatar>
+        
+                    <v-list-tile-content>
+                    <v-list-tile-title v-html="`${joueur.prenom} ${joueur.nom} `"></v-list-tile-title>
+                    <v-list-tile-sub-title v-html="`${joueur.nomClub} - ${classement(joueur)}`"></v-list-tile-sub-title>
+                    </v-list-tile-content>
+        
+                    <v-list-tile-action color="green">
+                        <v-btn flat icon>
+                            <v-icon :color="joueur.echelon ? 'green' : 'blue'">keyboard_arrow_right</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
+                </v-list-tile>
+            </v-list>
+        </v-flex>
+    </v-layout>

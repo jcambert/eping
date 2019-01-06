@@ -30,7 +30,7 @@ export class Alive{
             this.endpoint=options.endpoint;
 
         store.watch(state=>state.app,(app:IAppState)=>{
-            console.log('server changed',app.server)
+          //  console.log('server changed',app.server)
             if(self.timer)
                 self.timer.unsubscribe();
             if(self.runningState)
@@ -45,7 +45,7 @@ export class Alive{
     }
     public start(){
         
-        console.log('Start aliveness Server Service')
+       // console.log('Start aliveness Server Service')
         this.timer=interval(this.time).subscribe(
             ()=>{
                // console.log('Check alive',this.application.server+this.endpoint);

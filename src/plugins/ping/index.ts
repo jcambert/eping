@@ -2,17 +2,29 @@ import {UiPlugin, RouterPlugin} from '..'
 
 import Player from '../../components/ping/player';
 import Club from '../../components/ping/club';
+import PlayerSearch from '../../components/ping/player/playerSearch';
+import ClubSearch from '../../components/ping/club/ClubSearch';
 
 const routes=[
        {
             path:'ping/me',
             name:'ping.me',
-            component:Player
+            component:Player// require('./../../components/ping/player')
         },
         {
             path:'ping/club',
             name:'ping.club',
             component:Club
+        },
+        {
+            path:'ping/search/player/:name?',
+            name:'ping.search.player',
+            component:PlayerSearch
+        },
+        {
+            path:'ping/search/club',
+            name:'ping.search.club',
+            component:ClubSearch
         }
     ]
 
